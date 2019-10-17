@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wangkeming.cms.dao.CommentMapper">
+
+  <resultMap id="BaseResultMap" type="com.wangkeming.cms.domain.Comment">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="content" property="content" jdbcType="CLOB" typeHandler="org.apache.ibatis.type.ClobTypeHandler"/>
+    <result column="created" property="created" jdbcType="TIMESTAMP"/>
+    
+    <result column="author_id" property="author.id" jdbcType="INTEGER"/>
+    <result column="author_nickname" property="author.nickname" jdbcType="VARCHAR"/>
+    
+    <result column="article_id" property="article.id" jdbcType="INTEGER"/>
+    <result column="article_name" property="article.name" jdbcType="VARCHAR"/>
+  </resultMap>
+  
+  <select id="findCommentsById" resultMap="BaseResultMap" parameterType="int">
+  select * from cms_comment where article_id = #{0}
+  </select>
+  
+  <insert id="saveComment" parameterType="com.wangkeming.cms.domain.Comment">
+  insert into cms_comment (user_id,article_id,content,created) values(#{author.id},#{article.id},#{content},#{created})
+  </insert>
+ 
+</mapper>
